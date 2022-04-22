@@ -2,7 +2,7 @@
 
 ## What is an Angular Module?
 
-In [Angular](https://angular.io/), a module is a mechanism to group different components, directives, pipes and services etc. that are inter-related, in such a way that can be combined with other modules to create an application.
+In Angular, a [Module](https://angular.io/guide/architecture-modules) is a mechanism to group different components, directives, pipes and services etc. that are inter-related, in such a way that can be combined with other modules to create an application.
 
 ## About this exercise
 
@@ -12,45 +12,14 @@ Previously we scafolded a new Angular application in which we have integrated
 - [FontAwesome](https://fontawesome.com/) Library for icons
 - [Bootstrap](https://getbootstrap.com/) Library for styling buttons
 - Bootstrap NavBar component
-- Routing for multiple components e.g. (CreateAccountComponent, ManageAccountsComponent, DepositFundsComponent, TransferFundsComponent) for which we have already configured routing. Also we have commented code of links in app.component.html as below :
-
-```html
-<ul>
-  <li>
-    <a><i class="fas fa-chart-line"></i> Dashboard</a>
-  </li>
-  <div>
-    <li>
-      <a [routerLink]="['/transfer-funds']"
-        ><i class="fas fa-random"></i> Transfer Funds</a
-      >
-    </li>
-    <li>
-      <a [routerLink]="['/deposit-funds']"
-        ><i class="fas fa-money-check-alt"></i>Deposit Funds</a
-      >
-    </li>
-    <li>
-      <a [routerLink]="['/create-account']"
-        ><i class="fas fa-user"></i> Create New Account</a
-      >
-    </li>
-    <li>
-      <a [routerLink]="['/manage-accounts']"
-        ><i class="fas fa-users"></i> Manage Accounts</a
-      >
-    </li>
-  </div>
-</ul>
-```
-
-- SideNav having links which are navigating to these pages
+- Routing for multiple components e.g. (CreateAccountComponent, ManageAccountsComponent, DepositFundsComponent, TransferFundsComponent) for which we have already configured routing.
+- SideNav having links which are navigating to these components
 
 In this exercise we are going to split our application into three modules
 
-- Shared module in which we have components which are common to all application (toolbar, sidenav, and dashboard)
-- Bank manager module (create account and manage accounts)
-- Account holder module (transfer funds and deposit funds)
+- **Shared module** in which we have components which are common to all application (ToolbarComponent, SidenavComponent, and DashboardComponent)
+- **Bank manager module** which will have CreateAccountComponent and ManageAccountsComponent
+- **Account holder module** which will have TransferFundsComponent and DepositFundsComponent
 - We will implement the lazy loading of these modules in our application
 
 ### Step 1: Create Shared Module
@@ -63,19 +32,20 @@ ng g m shared
 
 Now we will move our three common components inside the shared folder
 
-- Dashboard
-- ToolBar
-- SideNav
+- DashboardComponent
+- ToolBarComponent
+- SideNavComponent
 
 We will remove one module for the SideNav which is **MatSidenavModule** from app.module.ts.
 
-There we also need to update all the related paths in the application for these components and remove the imports from the app.module.ts file.
+There we also need to update all the related paths in the application for these components and remove the imports from the app.module.ts file into Shared Module.
 
 Add these components in the declaration section of shared module and MatSidenavModule to imports array of the shared.module.ts.
 
 Finally, we need to add the Router module in imports array of the shared.module.ts.
 
 ```typescript
+
  declarations: [
     SidenavComponent,
     ToolbarComponent,
@@ -86,12 +56,13 @@ Finally, we need to add the Router module in imports array of the shared.module.
     MatSidenavModule,
     RouterModule
   ]
+  
 ```
 
-Since, shared module will be used in any other module of the application. So, we will export the components (Dashboard, Toolbar, and Sidenav) from shared.module.ts by adding these to exports parameter of NgModule decorator.
+Since, shared module will be used in any other module of the application. So, we will export the SharedComponent from shared.module.ts by adding these to exports parameter of NgModule decorator.
 
 ```typescript
-exports: [ToolbarComponent, SidenavComponent, MatSidenavModule];
+exports: [Sharedcomponent];
 ```
 
 When we run our application using
@@ -114,6 +85,8 @@ Now we will generate a new module for bank manager with its routing module.
 ng g m bank-manager --routing
 ```
 
+> **--routing** is added to generate the separate routing for this module
+
 Move the components from root to bank-manager module
 
 - Create account
@@ -126,12 +99,6 @@ declarations: [
     CreateAccountComponent,
     ManageAccountsComponent
   ],
-```
-
-Export these components from the bank-manager module.
-
-```typescript
-exports: [CreateAccountComponent, ManageAccountsComponent];
 ```
 
 Update the sidenav component for bank-manager pages
@@ -153,7 +120,7 @@ Add the routing for the bank-manager.routing.module.ts file
 
 ```typescript
 const routes: Routes = [
-  { path: "bank-manager", component: DashboardComponent },
+  { path: "", component: DashboardComponent },                      // default route for the module
   { path: "create-account", component: CreateAccountComponent },
   { path: "manage-accounts", component: ManageAccountsComponent },
 ];
@@ -189,13 +156,6 @@ declarations: [
     TransferFundsComponent,
   ],
 ```
-
-Export these components from the account-holder module.
-
-```typescript
-exports: [DepositFundsComponent, TransferFundsComponent];
-```
-
 Update the sidenav component for bank-manager pages
 
 ```html
@@ -215,7 +175,7 @@ Add the routing for the account-holder.routing.module.ts file
 
 ```typescript
 const routes: Routes = [
-  { path: "account-holder", component: DashboardComponent },
+  { path: "", component: DashboardComponent },                    // default route for the module
   { path: "deposit-funds", component: DepositFundsComponent },
   { path: "transfer-funds", component: TransferFundsComponent },
 ];
