@@ -237,6 +237,6 @@ Update the sidenav component for bank-manager components
 
 Overall structure look like this 
 
-
+![](Screenshot 2022-04-25 211841.png)
 
 ![image-20220425211815839](Screenshot 2022-04-25 211841.png)
