@@ -33,7 +33,7 @@ ng g m shared
 We will also create a base component for Shared module using 
 
 ```
-ng g c chared
+ng g c shared/shared --flat
 ```
 
 Now we will move our three common components inside the shared folder. All of the files related to these components should be moved 
@@ -235,3 +235,8 @@ Update the sidenav component for bank-manager components
 </li>
 ```
 
+Overall structure look like this 
+
+
+
+![image-20220425211815839](Screenshot 2022-04-25 211841.png)

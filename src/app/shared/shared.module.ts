@@ -5,13 +5,15 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
+import { SharedComponent } from './shared.component';
 
 
 @NgModule({
   declarations: [
     SidenavComponent,
     ToolbarComponent,
-    DashboardComponent
+    DashboardComponent,
+    SharedComponent
   ],
   imports: [
     CommonModule,
@@ -19,9 +21,7 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ],
   exports: [
-    ToolbarComponent,
-    SidenavComponent,
-    MatSidenavModule,
+      SharedComponent
   ]
 })
 export class SharedModule { }
