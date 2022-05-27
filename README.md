@@ -44,9 +44,7 @@ Now we will move our three common components inside the shared folder. All of th
 
 We will move **MatSidenavModule** from *app.module.ts* into *shared.module*.
 
-There we also need to update all the related paths(**WHICH PATH?**) in the application for these components and remove the imports from the app.module.ts file.
-
-Add these components(**WHICH COMPONENTS?**) in the declaration section of shared module and MatSidenavModule to imports array of the shared.module.ts.
+Add *SidenavComponent, ToolbarComponent and DashboardComponent* components in the declaration section of *shared.module.ts* and *MatSidenavModule* to imports array of the *shared.module.ts*.
 
 Finally, we need to add the Router module in imports array of the shared.module.ts.
 
@@ -65,7 +63,9 @@ Finally, we need to add the Router module in imports array of the shared.module.
   
 ```
 
-The code structure that was gluing together the side nav and Nav bar will be moved from *app.component.html* to *shared.component.html* (**WHY WE ARE DOING THAT?**)
+Since the *sidenav* and *toolbar* are components that are shared across the application, we will move the code structure that was gluing together these two components from *app.component.html* to *shared.component.html*
+
+
 
 ```typescript
 <div class="container-fluid" style="height: 100%;">
@@ -152,7 +152,9 @@ In order to load the bank-manager module in lazy way we add following config in 
 
 ### 
 
-Add the routing for the *bank-manager.routing.module.ts* file and also *import* the respective components **(WHY DOING THIS?)**
+Every module will have its own routing. Add the routing for the *bank-manager.routing.module.ts* file and also *import* the respective components.  
+
+
 
 ```typescript
 const routes: Routes = [
@@ -246,4 +248,6 @@ Overall structure look like this
 
 ![](/1.png)
 
-**FINAL OUTPUT OR FINAL CHECK OR FINAL WORDS SHOULD BE GIVEN**
+---------------
+
+As a result of introducing modularity in the application, every modules (app modules, bank-manager module, account-holder-module) has its own routing app module's routing will lazily invoke other module's routing form within
