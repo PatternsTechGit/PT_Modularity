@@ -6,7 +6,7 @@ In Angular, a [Module](https://angular.io/guide/architecture-modules) is a mecha
 
 ## About this exercise
 
-Previously we scafolded a new Angular application in which we have integrated
+Previously we scaffolded a new Angular application in which we have integrated
 
 - Scaffolded the angular application
 - [FontAwesome](https://fontawesome.com/) Library for icons
@@ -42,11 +42,9 @@ Now we will move our three common components inside the shared folder. All of th
 - ToolBarComponent
 - SideNavComponent
 
-We will remove MatSidenavModule** from app.module.ts into shared.module.
+We will move **MatSidenavModule** from *app.module.ts* into *shared.module*.
 
-There we also need to update all the related paths in the application for these components and remove the imports from the app.module.ts file.
-
-Add these components in the declaration section of shared module and MatSidenavModule to imports array of the shared.module.ts.
+Add *SidenavComponent, ToolbarComponent and DashboardComponent* components in the declaration section of *shared.module.ts* and *MatSidenavModule* to imports array of the *shared.module.ts*.
 
 Finally, we need to add the Router module in imports array of the shared.module.ts.
 
@@ -65,7 +63,9 @@ Finally, we need to add the Router module in imports array of the shared.module.
   
 ```
 
-The code structure that was gluing together the side nav and Nav bar will be moved from app.component to shared.component
+Since the *sidenav* and *toolbar* are components that are shared across the application, we will move the code structure that was gluing together these two components from *app.component.html* to *shared.component.html*
+
+
 
 ```typescript
 <div class="container-fluid" style="height: 100%;">
@@ -83,16 +83,24 @@ The code structure that was gluing together the side nav and Nav bar will be mov
 
 
 
-Since, shared module will be now used in AppComponent. So, we will export the SharedComponent from shared.module.ts by adding these to exports parameter of NgModule decorator.
+Since, shared module will be now used in *app.component.ts*. So, we will export the SharedComponent from shared.module.ts by adding these to exports parameter of NgModule decorator.
 
 ```typescript
-exports: [Sharedcomponent];
+exports: [SharedComponent];
 ```
 
-and in AppComponent we will just use the selector of shared component 
+and in *app.component.html* file we will just use the selector of shared component 
 
 ```typescript
 <app-shared></app-shared>
+```
+
+also *import* this **SharedModule** in *app.module.ts* file
+
+```typescript
+import { SharedModule } from './shared/shared.module';
+// add SharedModule in imports section
+imports:[SharedModule]
 ```
 
 When we run our application using
@@ -124,7 +132,7 @@ Move the following components from root to bank-manager module
 - CreateAccountComponent
 - ManageAccountComponent
 
-Remove the imports of these component from the app.module.ts file and add to declarations array of bank-manager module.
+Remove the imports of these component from the *app.module.ts* file and add to declarations array of *bank-manager.module.ts*.
 
 ```typescript
 declarations: [
@@ -133,19 +141,20 @@ declarations: [
   ],
 ```
 
-In order to load the bank-manager module in lazy way we add following config in the app-routing.module.ts
+In order to load the bank-manager module in lazy way we add following config in *const routes: Routes* section of the *app-routing.module.ts*
 
 ```typescript
-{ // If application no route is specified after base url the application will load DashboardComponent e.g http://localhost:4200
- { path: '', component: DashboardComponent },
+// If application no route is specified after base url the application will load DashboardComponent e.g http://localhost:4200
+ {path: '', component: DashboardComponent },
   // for http://localhost:4200/bank-manager the application will lazily load bank-manager module and rest of the routing will be picked up from bank-manager module
-  path: 'bank-manager', loadChildren: () => import('src/app/bank-manager/bank-manager.module').then((m) => m.BankManagerModule),
-}
+{  path: 'bank-manager', loadChildren: () => import('src/app/bank-manager/bank-manager.module').then((m) => m.BankManagerModule),}
 ```
 
 ### 
 
-Add the routing for the bank-manager.routing.module.ts file
+Every module will have its own routing. Add the routing for the *bank-manager.routing.module.ts* file and also *import* the respective components.  
+
+
 
 ```typescript
 const routes: Routes = [
@@ -157,7 +166,7 @@ const routes: Routes = [
 ];
 ```
 
-We will also Update the sidenav component for bank-manager pages
+We will also Update the sidenav component for bank-manager pages. For this go to *sidenav.component.html* file in *sidenav* folder. Now update *Manage Accounts* and *Create New Accounts* with below given details.
 
 ```html
 <li>
@@ -188,7 +197,7 @@ We will also create a base Component for this module using
 ng g c account-holder
 ```
 
-Move the following components from root to bank-manager module
+Move the following components from root to account-holder module
 
 - TransferFundsComponent 
 - DepositFundsComponent
@@ -220,7 +229,7 @@ const routes: Routes = [
 ];
 ```
 
-Update the sidenav component for bank-manager components
+Update the sidenav component for bank-manager components.For this go to *sidenav.component.html* file in *sidenav* folder. Now update *Transfer Funds* and *Deposit Funds* with below given details.
 
 ```html
 <li>
@@ -237,6 +246,8 @@ Update the sidenav component for bank-manager components
 
 Overall structure look like this 
 
-![](Screenshot 2022-04-25 211841.png)
+![](/1.png)
 
-![image-20220425211815839](Screenshot 2022-04-25 211841.png)
+---------------
+
+As a result of introducing modularity in the application, every modules (app modules, bank-manager module, account-holder-module) has its own routing app module's routing will lazily invoke other module's routing form within
