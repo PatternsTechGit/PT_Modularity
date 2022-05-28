@@ -127,10 +127,11 @@ We will also create a base Component for this module using
 ng g c bank-manager
 ```
 
-Move the following components from root to bank-manager module
+Now we will drag and drop below given components from root to bank-manager module
 
 - CreateAccountComponent
 - ManageAccountComponent
+![](/src/assets/images/2.jpg)
 
 Remove the imports of these component from the *app.module.ts* file and add to declarations array of *bank-manager.module.ts*.
 
@@ -197,10 +198,11 @@ We will also create a base Component for this module using
 ng g c account-holder
 ```
 
-Move the following components from root to account-holder module
+Now we will drag and drop below given components from root to Account holder module
 
 - TransferFundsComponent 
 - DepositFundsComponent
+![](/src/assets/images/1.jpg)
 
 Remove the imports from the app.module.ts file and add to declarations array of account-holder module.
 
